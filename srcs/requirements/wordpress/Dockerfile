@@ -3,6 +3,7 @@ FROM debian:bullseye
 # Install necessary dependencies
 RUN apt-get update && apt-get install -y \
     curl \
+    mariadb-client \
     zip \
     unzip \
     php \
@@ -37,8 +38,6 @@ RUN curl -O https://wordpress.org/latest.tar.gz && \
 COPY ./tools/wp-config.sh /usr/local/bin/wp-config.sh
 RUN chmod +x /usr/local/bin/wp-config.sh
 
-#COPY ./tools/www.conf /usr/local/bin/www.conf
-#RUN chmod +x /usr/local/bin/www.conf
 COPY ./tools/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 RUN chmod +x /etc/php/7.4/fpm/pool.d/www.conf
 

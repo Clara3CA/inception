@@ -7,45 +7,51 @@ services:
     ports:
       - "443:443"
     volumes:
-      - /home/${USER}/data/wordpress:/var/www/html
+      - wordpress:/var/www/html
     networks:
       - inception
     depends_on:
       - wordpress
+    image: nginx
 
   wordpress:
     build: ./requirements/wordpress
     container_name: wordpress
     restart: on-failure
-    environment:
-      DOMAIN_NAME: ${DOMAIN_NAME}
-      WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
-      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
-      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
-      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
     env_file: .env
     volumes:
-      - /home/${USER}/data/wordpress:/var/www/html
+      - wordpress:/var/www/html
     networks:
       - inception
     depends_on:
       - mariadb
+    image: wordpress
 
   mariadb:
     build: ./requirements/mariadb
     container_name: mariadb
     restart: on-failure
-    environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     env_file: .env
     volumes:
-      - /home/${USER}/data/mariadb:/var/lib/mysql
+      - mariadb:/var/lib/mysql
     networks:
       - inception
+    image: mariadb
 
 networks:
   inception:
     driver: bridge
+
+volumes:
+    wordpress: 
+      driver : local
+      driver_opts:
+        type: none
+        device: /home/${USER}/data/wordpress
+        o: bind
+    mariadb:
+      driver: local
+      driver_opts:
+        type: none
+        device: /home/${USER}/data/mariadb
+        o: bind

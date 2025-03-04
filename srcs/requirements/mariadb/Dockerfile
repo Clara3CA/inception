@@ -11,6 +11,7 @@ RUN mkdir -p /var/run/mysqld && chown -R mysql:mysql /var/run/mysqld && chmod -R
 
 # Copiez le script d'initialisation
 COPY ./tools/init.sh /usr/local/bin/init.sh
+COPY ./tools/conf.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 RUN chmod +x /usr/local/bin/init.sh
 
 # Commande pour démarrer MariaDB et exécuter le script de configuration

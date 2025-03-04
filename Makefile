@@ -1,6 +1,6 @@
 all:
 	mkdir -p /home/caymard/data/wordpress
-	mkdir -p /home/caymard/data/mysql
+	mkdir -p /home/caymard/data/mariadb
 
 	docker compose -f ./srcs/docker-compose.yml up --build -d
 
