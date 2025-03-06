@@ -24,5 +24,10 @@ else
 fi
 
 echo "🚀 Starting MariaDB as the main process..."
-exec mysqld --bind-address=0.0.0.0
+#exec mysqld --bind-address=0.0.0.0
+
+mysqladmin -u root -p"${MYSQL_ROOT_PASSWORD}" shutdown
+
+exec mysqld
+
 

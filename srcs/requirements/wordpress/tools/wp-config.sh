@@ -14,8 +14,6 @@ define( 'DB_HOST', '${WORDPRESS_DB_HOST}' );
 define( 'DB_CHARSET', 'utf8mb4' );
 define( 'DB_COLLATE', '' );
 
-echo "test env <" . getenv('DB_NAME') . ">";
-
 define( 'WP_DEBUG', false );
 
 /* Authentication Keys */
