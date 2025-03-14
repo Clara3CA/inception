@@ -15,4 +15,4 @@ COPY ./tools/conf.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 RUN chmod +x /usr/local/bin/init.sh
 
 # Commande pour démarrer MariaDB et exécuter le script de configuration
-ENTRYPOINT ["/usr/local/bin/init.sh"]
+CMD ["/usr/local/bin/init.sh"]
