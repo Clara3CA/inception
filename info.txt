@@ -1,15 +1,3 @@
-#afficher tous les docker existants
-sudo docker ps -a
-
-#arreter le docker
-sudo docker stop DOCKER_NAME
-
-#supprimer le docker
-sudo docker rm DOCKER_NAME
-
-#verifier que le docker a bien ete cree
-sudo docker images
-
 #creer le docker
 sudo docker build -t DOCKER_NAME .
 
@@ -21,12 +9,9 @@ docker run --env-file ../../.env -it -d -p 3306:3306 --name mariadb mariadb
 #executer le docker
 sudo docker exec -it DOCKER_NAME bash
 
-#Afficher les msgs erreur
-sudo docker logs DOCKER_NAME
 
 #afficher fichier nginx.conf originel
 echo "$(docker exec -it nginx cat /etc/nginx/nginx.conf)" > nginx.conf
-
 
 
 #si pb pour kill un conteneur
@@ -38,24 +23,105 @@ sudo kill -9 numeroRouge
 #sinon --> sudo kill -9 $(docker inspect --format '{{.State.Pid}}' DOCKER_NAME)
 
 
-
-
-#TO DO
-Probleme avec mariadb IMPOSSIBLE a STOP -> sur portable
-502 Bad Gateway dans navigateur -> liaison/lecture du PORT 9000 problematique
-1x mariadb et 1x nginx --> running
-
 caymard.42.fr -> sudo nano /etc/hosts
 
+
+
+
+
 #.env
-
 DOMAIN_NAME="caymard.42.fr"
-MYSQL_ROOT_PASSWORD=inception
-MYSQL_USER=caymard
-MYSQL_PASSWORD=inception
-MYSQL_DATABASE=wordpress
 
-WORDPRESS_DB_HOST="mariadb:3306"
-WORDPRESS_DB_USER=caymard
-WORDPRESS_DB_PASSWORD=inception
-WORDPRESS_DB_NAME=wordpress
+MYSQL_ROOT_PASSWORD="inception"
+MYSQL_USER="caymard"
+MYSQL_PASSWORD="inception"
+MYSQL_DATABASE="wordpress"
+
+WORDPRESS_DB_HOST="mariadb"
+
+WORDPRESS_SITE_TITLE="Finally it works! -WordPress"
+WORDPRESS_SITE_URL="https://caymard.42.fr"
+
+WORDPRESS_ADMIN_USER="boss"
+WORDPRESS_ADMIN_PASSWORD="boss"
+WORDPRESS_ADMIN_EMAIL="boss@boss.com"
+
+WORDPRESS_USER="caymard"
+WORDPRESS_PASSWORD="inception"
+WORDPRESS_MAIL="clara@s19.be"
+
+
+
+
+
+# .env -> local pas git
+
+
+NGINX can be accessed by port 443 only -> localhost:8080
+
+#   How Docker and docker compose works
+    🔧 How Docker Works:
+
+        You write a Dockerfile
+        It’s a simple text file with instructions on how to build your app image — kind of like a recipe.
+
+        Docker builds an image
+        Using the Dockerfile, Docker creates an image (a snapshot of your app and its environment).
+
+        You run a container
+        You start a container from that image. The container is the actual running instance of your app.
+
+        Repeatable and isolated
+        You can run multiple containers from the same image, on different systems, and they'll behave exactly the same.
+    🛠️ How Docker Compose Works:
+
+    You create a docker-compose.yml file
+    This YAML file describes all your services, networks, and volumes — kind of like a blueprint for your full stack.
+
+    You run docker compose up
+    Compose reads the file, builds images (if needed), and starts all the containers — linked and configured properly.
+
+    One command to rule them all
+    It makes managing multi-container apps super easy (start, stop, rebuild, scale, etc.).
+
+#   The difference between a Docker image used with docker compose and without docker composeThe benefit of Docker compared to VMs
+    👉 Short answer: The image itself is the same — whether you use Docker or Docker Compose. What changes is how you manage and run it.
+    🔹 Without Docker Compose (manual way):
+        You build and run everything with CLI commands
+        You must:
+            Manually link containers (e.g., web to DB),
+            Handle volumes and networks yourself,
+            Run each container one by one.
+    🔹 With Docker Compose:
+        You define everything in docker-compose.yml, then run docker compose up
+        Docker Compose:
+            Builds the same image (my-app),
+            Starts all services in the right order,
+            Creates a shared network for services to talk easily (like using service names as hostnames),
+            Simplifies scaling, logging, and teardown.
+    💡 So the image is the same — Compose just automates and organizes how things run.
+    Feature             🐳 Docker (Containers)              💻 Virtual Machines
+    Startup time            Seconds                                 Minutes
+    Size                    Lightweight (MBs)                       Heavy (GBs)
+    Performance             Near-native speed                       Slower due to full OS overhead
+    OS                      Shares host OS kernel                   Has full guest OS (Windows/Linux)
+    Portability             Highly portable                         Less portable
+    Isolation               Process-level isolation                 Full OS isolation
+    Use case               Microservices, CI/CD, DevOps, cloud apps	Full OS, legacy apps, strong isolation
+    🔹 In Simple Terms:
+        Docker is like putting your app in a lunchbox: fast, compact, and easy to carry.
+        VMs are like bringing a whole kitchen: more isolated, but heavier and slower.
+
+#   The pertinence of the directory structure required for this project (an example is provided in the subject's PDF file)
+    Your docker-compose.yml expects services in specific folders (like ./backend/Dockerfile),
+    Your Dockerfile might use COPY instructions that rely on certain file locations,
+    Breaking the structure causes errors like “file not found” or "context invalid."
+
+
+# Must be able to explain how to login into the database. Verify that the database is not empty
+    docker exec -it mariadb bash
+    mysql -u root -p
+    SHOW DATABASES;
+    USE your_database_name;
+    SHOW TABLES;
+

@@ -68,7 +68,7 @@ then
 
 	echo "WordPress' Installation..."
 	wp core install --path="/var/www/html" \
-		--url="${DOMAIN_NAME}" \
+		--url="${WORDPRESS_SITE_URL}" \
 		--title="${WORDPRESS_SITE_TITLE}" \
 		--admin_user="${WORDPRESS_ADMIN_USER}" \
 		--admin_password="${WORDPRESS_ADMIN_PASSWORD}" \

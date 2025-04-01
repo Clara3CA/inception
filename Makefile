@@ -6,9 +6,10 @@ all:
 	docker compose -f ./srcs/docker-compose.yml up -d
 
 clean:
-	docker compose -f srcs/docker-compose.yml down --rmi all
+	docker compose -f srcs/docker-compose.yml down
 
 fclean: clean
+	docker compose -f srcs/docker-compose.yml down --rmi all
 	docker builder prune -a
 	docker system prune --volumes --force
 	sudo rm -rf /home/caymard/data
