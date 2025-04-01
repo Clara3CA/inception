@@ -29,6 +29,8 @@ caymard.42.fr -> sudo nano /etc/hosts
 
 
 
+
+
 #.env
 DOMAIN_NAME="caymard.42.fr"
 
@@ -51,47 +53,45 @@ WORDPRESS_PASSWORD="inception"
 WORDPRESS_MAIL="clara@s19.be"
 
 
-
-
-
 # .env -> local pas git
 
 
 NGINX can be accessed by port 443 only -> localhost:8080
 
+
 #   How Docker and docker compose works
+
     🔧 How Docker Works:
-
         You write a Dockerfile
-        It’s a simple text file with instructions on how to build your app image — kind of like a recipe.
-
+            It’s a simple text file with instructions on how to build your app image — kind of like a recipe.
         Docker builds an image
-        Using the Dockerfile, Docker creates an image (a snapshot of your app and its environment).
-
+            Using the Dockerfile, Docker creates an image (a snapshot of your app and its environment).
         You run a container
-        You start a container from that image. The container is the actual running instance of your app.
-
+            You start a container from that image. The container is the actual running instance of your app.
         Repeatable and isolated
-        You can run multiple containers from the same image, on different systems, and they'll behave exactly the same.
+            You can run multiple containers from the same image, on different systems, and they'll behave exactly the same.
+
     🛠️ How Docker Compose Works:
+        You create a docker-compose.yml file
+            This YAML file describes all your services, networks, and volumes — kind of like a blueprint for your full stack.
+        You run docker compose up
+            Compose reads the file, builds images (if needed), and starts all the containers — linked and configured properly.
+        One command to rule them all
+            It makes managing multi-container apps super easy (start, stop, rebuild, scale, etc.).
 
-    You create a docker-compose.yml file
-    This YAML file describes all your services, networks, and volumes — kind of like a blueprint for your full stack.
 
-    You run docker compose up
-    Compose reads the file, builds images (if needed), and starts all the containers — linked and configured properly.
-
-    One command to rule them all
-    It makes managing multi-container apps super easy (start, stop, rebuild, scale, etc.).
 
 #   The difference between a Docker image used with docker compose and without docker composeThe benefit of Docker compared to VMs
+
     👉 Short answer: The image itself is the same — whether you use Docker or Docker Compose. What changes is how you manage and run it.
+    
     🔹 Without Docker Compose (manual way):
         You build and run everything with CLI commands
         You must:
             Manually link containers (e.g., web to DB),
             Handle volumes and networks yourself,
             Run each container one by one.
+    
     🔹 With Docker Compose:
         You define everything in docker-compose.yml, then run docker compose up
         Docker Compose:
@@ -99,18 +99,23 @@ NGINX can be accessed by port 443 only -> localhost:8080
             Starts all services in the right order,
             Creates a shared network for services to talk easily (like using service names as hostnames),
             Simplifies scaling, logging, and teardown.
+
     💡 So the image is the same — Compose just automates and organizes how things run.
-    Feature             🐳 Docker (Containers)              💻 Virtual Machines
-    Startup time            Seconds                                 Minutes
-    Size                    Lightweight (MBs)                       Heavy (GBs)
-    Performance             Near-native speed                       Slower due to full OS overhead
-    OS                      Shares host OS kernel                   Has full guest OS (Windows/Linux)
-    Portability             Highly portable                         Less portable
-    Isolation               Process-level isolation                 Full OS isolation
-    Use case               Microservices, CI/CD, DevOps, cloud apps	Full OS, legacy apps, strong isolation
+
+    Feature             🐳 Docker (Containers)                      💻 Virtual Machines
+    Startup time            Seconds                                         Minutes
+    Size                    Lightweight (MBs)                               Heavy (GBs)
+    Performance             Near-native speed                               Slower due to full OS overhead
+    OS                      Shares host OS kernel                           Has full guest OS (Windows/Linux)
+    Portability             Highly portable                                 Less portable
+    Isolation               Process-level isolation                         Full OS isolation
+    Use case             Microservices, CI/CD, DevOps, cloud apps	        Full OS, legacy apps, strong isolation
+
     🔹 In Simple Terms:
         Docker is like putting your app in a lunchbox: fast, compact, and easy to carry.
         VMs are like bringing a whole kitchen: more isolated, but heavier and slower.
+
+
 
 #   The pertinence of the directory structure required for this project (an example is provided in the subject's PDF file)
     Your docker-compose.yml expects services in specific folders (like ./backend/Dockerfile),
@@ -124,4 +129,3 @@ NGINX can be accessed by port 443 only -> localhost:8080
     SHOW DATABASES;
     USE your_database_name;
     SHOW TABLES;
-
